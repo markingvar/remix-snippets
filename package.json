@@ -9,7 +9,7 @@
     "snippets": [
         {
           "language": ["javascriptreact", "javascript", "typescript", "typescriptreact"],
-          "path": "./remix.json"
+          "path": "./snippets/remix.json"
         }
     ]
   }
