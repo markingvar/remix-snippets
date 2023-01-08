@@ -1,0 +1,119 @@
+{
+  "Remix links function": {
+    "prefix": "rmxli",
+    "body": [
+      "export let links: LinksFunction = () => {",
+      "\treturn []",
+      "}",
+      ""
+    ],
+    "description": "Generate a remix links function"
+  },
+  "Remix Loader Function": {
+    "prefix": "rmxld",
+    "body": [
+      "export let loader: LoaderFunction = async ({request}) => {",
+      "\t",
+      "}",
+      ""
+    ],
+    "description": "Generate a Remix Loader Function"
+  },
+  "import style": {
+    "prefix": "imsty",
+    "body": ["import $1 from \"~/styles/$0\";"],
+    "description": "import a style"
+  },
+  "Remix Route": {
+    "prefix": "rmxrt",
+    "body": [
+      "import type { MetaFunction } from \"@remix-run/node\";",
+      "",
+      "\t\tconst metaTitle = \"TODO - Fill in the title\";",
+      "\t\tconst metaDescription = \"TODO - Fill in description\";",
+      "\t\t",
+      "\t\texport let meta: MetaFunction = () => {",
+      "\t\t\treturn {",
+      "\t\t\t\ttitle: metaTitle,",
+      "\t\t\t\tdescription: metaDescription,",
+      "\t\t\t\t\"og:type\": \"website\",",
+      "\t\t\t\t\"og:url\": \"TODO - Fill in the page url\",",
+      "\t\t\t\t\"og:title\": metaTitle,",
+      "\t\t\t\t\"og:descripion\": metaDescription,",
+      "\t\t\t\t\"og:image\": \"TODO - Fill in the open graph image - Cloudinary?\",",
+      "\t\t\t\t\"og:image:width\": \"TODO - Fill in the image width\",",
+      "\t\t\t\t\"og:image:height\": \"TODO - Fill in the image height\",",
+      "\t\t\t\t\"og:image:alt\": \"TODO - Fill in the image alt\",",
+      "\t\t\t\t\"og:site_name\": metaTitle,",
+      "\t\t\t\t\"twitter:card\": \"summary_large_image\",",
+      "\t\t\t\t\"twitter:image\":",
+      "\t\t\t\t\t\"TODO - Fill in the twitter image src - can be the same as Cloudinary\",",
+      "\t\t\t\t\"twitter:title\": metaTitle,",
+      "\t\t\t\t\"twitter:creator\": \"@IngvarMark\",",
+      "\t\t\t\t\"twitter:description\": metaDescription,",
+      "\t\t\t};",
+      "\t\t};",
+      "\t\t",
+      "\t\texport default function $1() {",
+      "\t\t",
+      "\t\t\treturn <h1>$0</h1>;",
+      "\t\t}"
+    ],
+    "description": "Creates a new remix route with meta"
+  },
+  "Parent Route": {
+    "prefix": "rmxpr",
+    "body": [
+      "import {Outlet} from '@remix-run/react'",
+      "",
+      "export default function $0ParentRoute () {",
+      "\treturn (",
+      "\t\t<>",
+      "\t\t\t<Outlet />",
+      "\t\t</>",
+      "\t)",
+      "}"
+    ],
+    "description": "Generate a Remix Parent Route"
+  },
+  "Remix Base Route": {
+    "prefix": "rmxbs",
+    "body": [
+      "import type { MetaFunction } from \"@remix-run/node\";",
+      "",
+      "const metaTitle = \"TODO - Fill in the title\";",
+      "const metaDescription = \"TODO - Fill in description\";",
+      "",
+      "export let meta: MetaFunction = () => {",
+      "\treturn {",
+      "\t\ttitle: metaTitle,",
+      "\t\tdescription: metaDescription,",
+      "\t\t\"og:type\": \"website\",",
+      "\t\t\"og:url\": \"TODO - Fill in the page url\",",
+      "\t\t\"og:title\": metaTitle,",
+      "\t\t\"og:descripion\": metaDescription,",
+      "\t\t\"og:image\": \"TODO - Fill in the open graph image - Cloudinary?\",",
+      "\t\t\"og:image:width\": \"TODO - Fill in the image width\",",
+      "\t\t\"og:image:height\": \"TODO - Fill in the image height\",",
+      "\t\t\"og:image:alt\": \"TODO - Fill in the image alt\",",
+      "\t\t\"og:site_name\": metaTitle,",
+      "\t\t\"twitter:card\": \"summary_large_image\",",
+      "\t\t\"twitter:image\":",
+      "\t\t\t\"TODO - Fill in the twitter image src - can be the same as Cloudinary\",",
+      "\t\t\"twitter:title\": metaTitle,",
+      "\t\t\"twitter:creator\": \"@IngvarMark\",",
+      "\t\t\"twitter:description\": metaDescription,",
+      "\t};",
+      "};",
+      "",
+      "export default function $1() {",
+      "\treturn <h1>$0</h1>;",
+      "}",
+      ""
+    ],
+    "description": "Remix base route"
+  }
+}
+
+
+

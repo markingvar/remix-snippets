@@ -1,0 +1,14 @@
+{
+  "name": "murky-water",
+  "version": "1.0.0",
+  "description": "Murky Water Code Snippets",
+  "contributes": {
+    "snippets": [
+        {
+          "language": ["javascriptreact", "javascript", "typescript", "typescriptreact"],
+          "path": "./remix.json"
+        }
+    ]
+  }
+}
+
