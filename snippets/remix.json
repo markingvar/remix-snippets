@@ -1,68 +1,247 @@
 {
-  "Remix links function": {
-    "prefix": "rmxli",
+    "Remix Default Function": {
+    "prefix": "remix-default-function",
     "body": [
-      "export let links: LinksFunction = () => {",
-      "\treturn []",
-      "}",
-      ""
+      "export default function $1() {",
+      "  return (",
+      "    <div>",
+      "      $2",
+      "    </div>",
+      "  );",
+      "}"
     ],
-    "description": "Generate a remix links function"
+    "description": "Default function which renders the component when the route matches."
   },
   "Remix Loader Function": {
-    "prefix": "rmxld",
+    "prefix": "remix-loader",
     "body": [
-      "export let loader: LoaderFunction = async ({request}) => {",
-      "\t",
+      "import type { LoaderArgs } from \"@remix-run/cloudflare\"",
+      "export async function loader($1: LoaderArgs) {",
+      "  $2",
+      "  return {$3}",
+      "};"
+    ],
+    "description": "Function called on server side before rendering to provide data to the route."
+  },
+  "Remix Loader Function Session": {
+    "prefix": "remix-loader-session",
+    "body": [
+      "import type { LoaderArgs } from \"@remix-run/cloudflare\"",
+      "export async function loader({ request }: LoaderArgs) {",
+      "  const session = await getSession(request.headers.get(\"Cookie\"));",
+      "  $3",
+      "  return ${1|json,redirect|}($2, {",
+      "    headers: {",
+      "      \"Set-Cookie\": await commitSession(session),",
+      "    },",
+      "  });",
+      "};"
+    ],
+    "description": "Function called on server side before rendering to provide data to the route."
+  },
+  "Remix Loader Function Params": {
+    "prefix": "remix-loader-params",
+    "body": [
+      "import type { LoaderArgs } from \"@remix-run/cloudflare\"",
+      "export async function loader({ request }: LoaderArgs) {",
+      "  const url = new URL(request.url);",
+      "  const $2 = url.searchParams.${1|get,getAll|}(\"$2\")",
+      "  $3",
+      "  return {$4}",
+      "};"
+    ],
+    "description": "Function called on server side before rendering to provide data to the route."
+  },
+  "Remix Action Function": {
+    "prefix": "remix-action",
+    "body": [
+      "import type { ActionArgs } from \"@remix-run/cloudflare\"",
+      "export async function action({ request }: ActionArgs) {",
+      "  const formData = await request.formData();",
+      "  $1",
+      "  return redirect(`$2`);",
+      "};"
+    ],
+    "description": "Function called on server side to handle data mutation and other actions."
+  },
+  "Remix Headers": {
+    "prefix": "remix-headers",
+    "body": [
+      "export const headers = ({ loaderHeaders, parentHeaders }) => {",
+      "  return {",
+      "    \"$1\": $2",
+      "  };",
+      "};"
+    ],
+    "description": "Function to define headers by route."
+  },
+  "Remix Meta": {
+    "prefix": "remix-meta",
+    "body": [
+      "export const meta: MetaFunction = () => {",
+      "  return {",
+      "    title: \"$1\",",
+      "    description: \"$2\"",
+      "  };",
+      "};"
+    ],
+    "description": "Function to define meta tags by route."
+  },
+  "Remix Links": {
+    "prefix": "remix-links",
+    "body": [
+      "export const links: LinksFunction = () => {",
+      "  return [",
+      "    { rel: \"$1\", href: \"$2\" }",
+      "  ];",
+      "};"
+    ],
+    "description": "Function to define links by route."
+  },
+  "Remix CatchBoundary": {
+    "prefix": "remix-catch-boundary",
+    "body": [
+      "export function CatchBoundary() {",
+      "  const caught = useCatch();",
+      "  $1",
+      "  return (",
+      "    <div>",
+      "      <h1>Caught</h1>",
+      "      <p>Status: {caught.status}</p>",
+      "      <pre>",
+      "        <code>{JSON.stringify(caught.data, null, 2)}</code>",
+      "      </pre>",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "React component that renders whenever an action or loader throws a Response."
+  },
+  "Remix ErrorBoundary": {
+    "prefix": "remix-error-boundary",
+    "body": [
+      "export function ErrorBoundary({ error }: { error: Error }) {",
+      "  return (",
+      "    <div>",
+      "      <h1>Error</h1>",
+      "      <p>{error.message}</p>",
+      "      <p>The stack trace is:</p>",
+      "      <pre>{error.stack}</pre>",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "React component that renders whenever there is an error anywhere on the route, either during rendering or during data loading."
+  },
+  "Remix Handle": {
+    "prefix": "remix-handle",
+    "body": ["export const handle = {", "  $1", "};"],
+    "description": "handle allows you to create application conventions with the useMatches() hook."
+  },
+  "Remix Session": {
+    "prefix": "remix-session",
+    "body": [
+      "const sessionSecret = process.env.SESSION_SECRET;",
+      "if (!sessionSecret) {",
+      "  throw new Error(\"SESSION_SECRET must be set\");",
       "}",
-      ""
-    ],
-    "description": "Generate a Remix Loader Function"
-  },
-  "import style": {
-    "prefix": "imsty",
-    "body": ["import $1 from \"~/styles/$0\";"],
-    "description": "import a style"
-  },
-  "Remix Route": {
-    "prefix": "rmxrt",
-    "body": [
-      "import type { MetaFunction } from \"@remix-run/node\";",
       "",
-      "\t\tconst metaTitle = \"TODO - Fill in the title\";",
-      "\t\tconst metaDescription = \"TODO - Fill in description\";",
-      "\t\t",
-      "\t\texport let meta: MetaFunction = () => {",
-      "\t\t\treturn {",
-      "\t\t\t\ttitle: metaTitle,",
-      "\t\t\t\tdescription: metaDescription,",
-      "\t\t\t\t\"og:type\": \"website\",",
-      "\t\t\t\t\"og:url\": \"TODO - Fill in the page url\",",
-      "\t\t\t\t\"og:title\": metaTitle,",
-      "\t\t\t\t\"og:descripion\": metaDescription,",
-      "\t\t\t\t\"og:image\": \"TODO - Fill in the open graph image - Cloudinary?\",",
-      "\t\t\t\t\"og:image:width\": \"TODO - Fill in the image width\",",
-      "\t\t\t\t\"og:image:height\": \"TODO - Fill in the image height\",",
-      "\t\t\t\t\"og:image:alt\": \"TODO - Fill in the image alt\",",
-      "\t\t\t\t\"og:site_name\": metaTitle,",
-      "\t\t\t\t\"twitter:card\": \"summary_large_image\",",
-      "\t\t\t\t\"twitter:image\":",
-      "\t\t\t\t\t\"TODO - Fill in the twitter image src - can be the same as Cloudinary\",",
-      "\t\t\t\t\"twitter:title\": metaTitle,",
-      "\t\t\t\t\"twitter:creator\": \"@IngvarMark\",",
-      "\t\t\t\t\"twitter:description\": metaDescription,",
-      "\t\t\t};",
-      "\t\t};",
-      "\t\t",
-      "\t\texport default function $1() {",
-      "\t\t",
-      "\t\t\treturn <h1>$0</h1>;",
-      "\t\t}"
+      "const { getSession, commitSession, destroySession } =",
+      "  createCookieSessionStorage({",
+      "    // a Cookie from `createCookie` or the CookieOptions to create one",
+      "    cookie: {",
+      "      name: \"${1:__session}\",",
+      "",
+      "      // all of these are optional",
+      "      domain: \"${2:remix.run}\",",
+      "      expires: new Date(Date.now() + 60),",
+      "      httpOnly: true,",
+      "      maxAge: 60,",
+      "      path: \"/\",",
+      "      sameSite: \"lax\",",
+      "      secrets: [sessionSecret],",
+      "      secure: true",
+      "    }",
+      "  });",
+      "export { getSession, commitSession, destroySession };"
     ],
-    "description": "Creates a new remix route with meta"
+    "description": "Creates a cookie session storage template."
   },
-  "Parent Route": {
-    "prefix": "rmxpr",
+  "Remix Link": {
+    "prefix": "remix-a-link",
+    "body": ["<Link prefetch=\"${1|none,intent,render|}\" to={`$2`}>$3</Link>"],
+    "description": "Remix Link component that renders an anchor tag for navigation."
+  },
+  "Remix Pending Link": {
+    "prefix": "remix-a-link-pending",
+    "body": [
+      "function PendingLink({ to, children }: { to: string; children: any }) {",
+      "  const transition = useTransition();",
+      "  const path = useResolvedPath(to);",
+      "",
+      "  const isPending =",
+      "    transition.state === \"loading\" &&",
+      "    transition.location.pathname === path.pathname;",
+      "",
+      "  return (",
+      "    <Link",
+      "      data-pending={isPending ? \"true\" : null}",
+      "      to={to}",
+      "      children={children}",
+      "    />",
+      "  );",
+      "}"
+    ],
+    "description": "Pending link component."
+  },
+  "Remix Button Transition": {
+    "prefix": "remix-btn-transition",
+    "body": [
+      "function SubmitButton() {",
+      "  const transition = useTransition();",
+      "",
+      "  const text =",
+      "    transition.state === \"submitting\"",
+      "      ? \"Saving...\"",
+      "      : transition.state === \"loading\"",
+      "      ? \"Saved!\"",
+      "      : \"Go\";",
+      "",
+      "  return <button type=\"submit\">{text}</button>;",
+      "}"
+    ],
+    "description": "Transition submit button."
+  },
+  "Remix Button Transition Action": {
+    "prefix": "remix-btn-transition-action",
+    "body": [
+      "function SubmitButton() {",
+      "  const transition = useTransition();",
+      "",
+      "  const loadTexts: any = {",
+      "    actionRedirect: \"Data saved, redirecting...\",",
+      "    actionReload: \"Data saved, reloading fresh data...\"",
+      "  };",
+      "",
+      "  const text =",
+      "    transition.state === \"submitting\"",
+      "      ? \"Saving...\"",
+      "      : transition.state === \"loading\"",
+      "      ? loadTexts[transition.type] || \"Loading...\"",
+      "      : \"Go\";",
+      "",
+      "  return <button type=\"submit\"></button>;",
+      "}"
+    ],
+    "description": "Transition action submit button."
+  },
+  "Import Style": {
+    "prefix": "import-style",
+    "body": ["import $1 from \"~/styles/$0\";"],
+    "description": "Import a style to use in a links furnction."
+  },
+  "Remix Parent Route": {
+    "prefix": "remix-parent-route",
     "body": [
       "import {Outlet} from '@remix-run/react'",
       "",
@@ -74,44 +253,7 @@
       "\t)",
       "}"
     ],
-    "description": "Generate a Remix Parent Route"
-  },
-  "Remix Base Route": {
-    "prefix": "rmxbs",
-    "body": [
-      "import type { MetaFunction } from \"@remix-run/node\";",
-      "",
-      "const metaTitle = \"TODO - Fill in the title\";",
-      "const metaDescription = \"TODO - Fill in description\";",
-      "",
-      "export let meta: MetaFunction = () => {",
-      "\treturn {",
-      "\t\ttitle: metaTitle,",
-      "\t\tdescription: metaDescription,",
-      "\t\t\"og:type\": \"website\",",
-      "\t\t\"og:url\": \"TODO - Fill in the page url\",",
-      "\t\t\"og:title\": metaTitle,",
-      "\t\t\"og:descripion\": metaDescription,",
-      "\t\t\"og:image\": \"TODO - Fill in the open graph image - Cloudinary?\",",
-      "\t\t\"og:image:width\": \"TODO - Fill in the image width\",",
-      "\t\t\"og:image:height\": \"TODO - Fill in the image height\",",
-      "\t\t\"og:image:alt\": \"TODO - Fill in the image alt\",",
-      "\t\t\"og:site_name\": metaTitle,",
-      "\t\t\"twitter:card\": \"summary_large_image\",",
-      "\t\t\"twitter:image\":",
-      "\t\t\t\"TODO - Fill in the twitter image src - can be the same as Cloudinary\",",
-      "\t\t\"twitter:title\": metaTitle,",
-      "\t\t\"twitter:creator\": \"@IngvarMark\",",
-      "\t\t\"twitter:description\": metaDescription,",
-      "\t};",
-      "};",
-      "",
-      "export default function $1() {",
-      "\treturn <h1>$0</h1>;",
-      "}",
-      ""
-    ],
-    "description": "Remix base route"
+    "description": "Generate a Remix parent route with an outlet for rendering children routes"
   }
 }
 
